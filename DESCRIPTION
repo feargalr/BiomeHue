@@ -1,0 +1,11 @@
+Package: BiomeHue
+Type: Package
+Title: Sensible colours for microbiome barplots
+Version: 0.1.0
+Author: Feargal Ryan
+Maintainer: Feargal ryan  <feargaljryan@gmail.com>
+Description: A dataframe look up with various colours
+    A function will be created to look up colours.
+License: MIT license
+Encoding: UTF-8
+LazyData: true
