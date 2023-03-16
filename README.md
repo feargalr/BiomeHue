@@ -1,5 +1,6 @@
 # BiomeHue
-Sensible colours for barplots
+Logical colour schema for microbiome barplots. 
+Note this is currently under construction, with much more functionality to be added. However it may prove useful. The basic concept is that phylogenetically similar taxa should be coloured similarly. 
 
 # Usage
 BiomeHue contains two simple functions
