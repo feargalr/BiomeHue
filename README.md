@@ -61,3 +61,4 @@ ggplot(counts.df, aes(x = Sample, y = value, fill = Taxa)) + geom_bar(width=0.7,
   scale_fill_manual(values=biomeHue.df$Colour,name="Taxa",breaks=biomeHue.df$Taxon,
                     labels = gsub("_"," ",biomeHue.df$Taxon))
 ```
+![BiomeHue](https://user-images.githubusercontent.com/7561275/225542713-dea0579c-2cf3-49c7-a269-b89a1c24e77a.png)
