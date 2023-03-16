@@ -1,8 +1,5 @@
 # BiomeHue
-Logical colour schema for bacterial microbiota barplots. Uses similar colours for phylogenetically similar taxa. This was developed for the human and murine gut microbiota. Other taxa may not be well covered. 
-
-### Note 
-BiomeHue is currently under development with more functionality to be added in the future. However it may prove useful even in it's current unfinished form. Currently several species within the same taxa may have the same colour assigned.  
+Logical colour schema for bacterial microbiota (16S and metagenomic) barplots. Uses similar colours for phylogenetically similar taxa. This was developed for the human and murine gut microbiota. Other taxa may not be well covered. I built this to make it simpler to reuse the same colour palette across multiple datasets, however it may prove useful to others. Currently several species within the same taxa may have the same colour assigned.  
 
 # Installation
 
