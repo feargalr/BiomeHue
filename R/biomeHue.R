@@ -14,7 +14,9 @@
 #   Test Package:              'Cmd + Shift + T'
 
 biomeHue <- function(taxa) {
-  load("data/biome_hue_palette.rda")
-  hue = hue[hue$Taxon %in% taxa,]
+  return(hue[hue$Taxon %in% taxa,])
+}
+
+biomeHue_palette <- function(taxa) {
   return(hue)
 }
