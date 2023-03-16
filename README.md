@@ -4,9 +4,21 @@ Logical colour schema for bacterial microbiota barplots. Uses similar colours fo
 ### Note 
 BiomeHue is currently under development with more functionality to be added in the future. However it may prove useful even in it's current unfinished form. Currently several species within the same taxa may have the same colour assigned.  
 
+# Installation
+
+
+```{r example}
+library(devtools
+install_github("feargalr/biomehue")
+library(BiomeHue)
+```
+
+
 # Usage
 BiomeHue contains two simple functions
 First to return all colours in the primary BiomeHue 
+
+
 
 ```{r example}
 biomeHue_palette()
@@ -22,6 +34,7 @@ ggplot(data.df, aes(x = Sample, y = value, fill = Taxa)) + geom_bar(stat = "iden
   scale_fill_manual(values=my_colors)+theme_classic()
 ```
 
+Example below plots with ggplot2 using test data. 
 
 ```{r example}
 library(devtools
