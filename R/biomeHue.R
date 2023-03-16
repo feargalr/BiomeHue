@@ -13,6 +13,8 @@
 #   Check Package:             'Cmd + Shift + E'
 #   Test Package:              'Cmd + Shift + T'
 
-biomeHue <- function() {
-  print("This is my first ever package")
+biomeHue <- function(taxa) {
+  load("data/biome_hue_palette.rda")
+  hue = hue[hue$Taxon %in% taxa,]
+  return(hue)
 }
