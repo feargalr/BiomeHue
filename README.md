@@ -5,7 +5,7 @@ Logical colour schema for bacterial microbiota (16S and metagenomic) barplots. U
 
 
 ```{r example}
-library(devtools
+library(devtools)
 install_github("feargalr/biomehue")
 library(BiomeHue)
 ```
