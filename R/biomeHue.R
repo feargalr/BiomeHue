@@ -15,8 +15,7 @@
 #'
 #' @export
 biomeHue <- function(taxa) {
-  # Load the 'hue' data frame, which contains the pre-defined colour palette
-  data(hue)
+
   # Return the rows of the 'hue' data frame where the 'Taxon' column matches the input 'taxa'
   return(hue[hue$Taxon %in% taxa, 'Colour'])
 }
@@ -34,7 +33,6 @@ biomeHue <- function(taxa) {
 #' @export
 biomeHue_palette <- function() {
   # Load the 'hue' data frame, which contains the pre-defined colour palette
-  data(hue)
   return(hue)
 }
 
