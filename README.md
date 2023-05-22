@@ -1,5 +1,5 @@
 # BiomeHue
-Logical colour schema for bacterial microbiota (16S and metagenomic) barplots. Uses similar colours for phylogenetically similar taxa. I primarily built this for my own use to make it simpler to reuse the same colour palette across multiple datasets, however it may prove useful to others. Currently several species within the same taxa may have the same colour assigned.  
+Logical colour schema for bacterial microbiota (16S and metagenomic) barplots. Uses similar colours for phylogenetically similar taxa. I primarily built this for my own use to make it simpler to reuse the same colour palette across multiple datasets, however it may prove useful to others. Currently several species within the same genus/family may have the same colour assigned.  
 
 # Installation
 
