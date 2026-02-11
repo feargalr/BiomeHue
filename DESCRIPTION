@@ -1,7 +1,7 @@
 Package: BiomeHue
 Type: Package
 Title: HCL-Based Colours for Microbiome Barplots
-Version: 1.1.0
+Version: 1.2.0
 Author: Feargal Ryan
 Maintainer: Feargal Ryan <feargaljryan@gmail.com>
 Description: Generates systematic, phylogenetically-informed colours for

@@ -2,7 +2,7 @@
 
 Automatic, phylogenetically-informed colour palettes for microbiome barplots. Taxa from the same phylum are assigned colours in the same hue range (e.g. warm oranges for Bacteroidota, greens for Bacillota, purples for Actinomycetota), with variation in luminance and chroma so that related species are visually grouped but still distinguishable.
 
-BiomeHue uses the **HCL colour space** for perceptual uniformity and ships with an internal **NCBI-derived lineage database** (~693K entries covering bacteria, archaea, and fungi) so that most taxa are resolved instantly without any API calls. Unknown taxa are optionally looked up via the NCBI Entrez API and cached for the session.
+BiomeHue uses the **HCL colour space** for perceptual uniformity and ships with an internal **NCBI-derived lineage database** (~83K entries covering bacteria, archaea, and fungi) so that most taxa are resolved instantly without any API calls. Unknown taxa are optionally looked up via the NCBI Entrez API and cached for the session.
 
 ## Installation
 
@@ -45,29 +45,56 @@ ggplot(my_data, aes(x = Sample, y = Abundance, fill = Taxon)) +
 
 ## Grouped legends by phylum
 
-With the `legendry` package you can add phylum subtitles to the legend, so that species are visually grouped under their phylum:
+With the [`legendry`](https://cran.r-project.org/package=legendry) package you can add **phylum subtitles** to the legend, so that species are visually grouped under their phylum header. Here is a fully working example using the test data included with BiomeHue:
 
 ```r
+library(BiomeHue)
+library(ggplot2)
 library(legendry)
 
-# Get colours and lineage info together
+# Load the included test data (wide format: samples × taxa)
+data(BiomeHue_test.df)
+
+# Reshape to long format
+taxa <- colnames(BiomeHue_test.df)[-1]  # drop "Sample" column
+demo_long <- reshape(
+  BiomeHue_test.df,
+  direction  = "long",
+  varying    = taxa,
+  v.names    = "Abundance",
+  timevar    = "Taxon",
+  times      = taxa,
+  idvar      = "Sample"
+)
+demo_long$Taxon <- factor(demo_long$Taxon, levels = rev(taxa))
+
+# Get colours and lineage info
 lineage <- biomeHue(taxa, use_ncbi = FALSE, return_lineage = TRUE)
 colours <- setNames(lineage$Colour, lineage$Taxon)
 
-# Build the grouped legend key
+# Build the grouped legend key — maps each taxon to its phylum
 group_key <- key_group_lut(members = lineage$Taxon, group = lineage$Phylum)
 
-ggplot(my_data, aes(x = Sample, y = Abundance, fill = Taxon)) +
-  geom_bar(stat = "identity") +
+# Plot
+ggplot(demo_long, aes(x = Sample, y = Abundance, fill = Taxon)) +
+  geom_bar(stat = "identity", width = 0.85) +
   scale_fill_manual(values = colours) +
+  labs(y = "Relative Abundance (%)", fill = NULL) +
   guides(fill = guide_legend_group(key = group_key, ncol = 1)) +
   theme_classic() +
   theme(
-    legendry.legend.subtitle = element_text(face = "bold", size = rel(0.9))
+    legend.text = element_text(face = "italic", size = 8),
+    legend.key.size = unit(0.4, "cm"),
+    legendry.legend.subtitle = element_text(
+      face = "bold", size = rel(0.9),
+      margin = margin(t = 4, b = 2)
+    )
   )
 ```
 
-A full working example is included at `inst/examples/demo_barplot.R`.
+This produces a stacked barplot with the legend organised by phylum — bold headers like **Bacteroidota**, **Bacillota**, **Actinomycetota** etc., with the member taxa listed beneath each.
+
+A more detailed example with simulated data is included at `inst/examples/demo_barplot.R`.
 
 ## Functions
 
@@ -85,9 +112,9 @@ biomeHue(c("Bacteroides", "Prevotella"), use_ncbi = FALSE)
 
 # Data frame with lineage
 biomeHue(c("Bacteroides", "Prevotella"), use_ncbi = FALSE, return_lineage = TRUE)
-#>        Taxon  Colour       Phylum   Rank Superkingdom
-#> 1 Bacteroides #C68D44 Bacteroidota family     Bacteria
-#> 2  Prevotella #9A4B29 Bacteroidota family     Bacteria
+#>        Taxon  Colour       Phylum  Rank Superkingdom
+#> 1 Bacteroides #C68D44 Bacteroidota genus     Bacteria
+#> 2  Prevotella #9A4B29 Bacteroidota genus     Bacteria
 ```
 
 ### `biomeHue_palette(phylum = NULL, n = 5)`
@@ -108,7 +135,7 @@ Clears NCBI API results cached during the current R session.
 
 ## How it works
 
-1. **Lineage resolution** — For each taxon, BiomeHue checks the internal NCBI-derived database (693K entries at genus-level and above). If the taxon is a species binomial, the genus is extracted and looked up. If still not found and `use_ncbi = TRUE`, the NCBI Entrez API is queried as a fallback.
+1. **Lineage resolution** — For each taxon, BiomeHue checks the internal NCBI-derived database (~83K entries at genus-level and above). If the taxon is a species binomial, the genus is extracted and looked up. If still not found and `use_ncbi = TRUE`, the NCBI Entrez API is queried as a fallback.
 
 2. **Phylum hue mapping** — Each phylum is assigned a base hue angle on the colour wheel:
 
@@ -150,13 +177,13 @@ biomeHue(c("Other", "Unclassified"))  # assigned grey
 
 ## Internal database
 
-The package ships with a pre-processed NCBI taxonomy database containing ~693K entries (genus-level and above) covering:
+The package ships with a pre-processed NCBI taxonomy database containing ~83K entries (genus-level and above) covering:
 
-- **Bacteria** (~483K entries)
-- **Fungi** (~198K entries)
-- **Archaea** (~12K entries)
+- **Bacteria** (~62K entries)
+- **Fungi** (~19K entries)
+- **Archaea** (~1.5K entries)
 
-The database is stored as a compressed `.rda` file (~2.9 MB) and is loaded lazily on first use. It can be rebuilt from the NCBI taxdump using the maintainer script in `data-raw/build_lineage_db.R`.
+The database is stored as a compressed `.rda` file (~500 KB) and is loaded lazily on first use. It can be rebuilt from the NCBI taxdump using the maintainer script in `data-raw/build_lineage_db.R`.
 
 ## Dependencies
 
