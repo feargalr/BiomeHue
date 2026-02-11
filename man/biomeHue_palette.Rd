@@ -2,18 +2,27 @@
 % Please edit documentation in R/biomeHue.R
 \name{biomeHue_palette}
 \alias{biomeHue_palette}
-\title{Get the full colour palette for microbiota barplots}
+\title{View the BiomeHue colour palette}
 \usage{
-biomeHue_palette()
+biomeHue_palette(phylum = NULL, n = 5)
+}
+\arguments{
+\item{phylum}{Optional character vector of phylum names to filter by.
+If NULL (default), returns taxa from all phyla.}
+
+\item{n}{Maximum number of taxa to return per phylum. Default 5.}
 }
 \value{
-A data frame with two columns: 'Taxon' (the bacterial name) and 'Colour' (the colour in hexadecimal format).
+A data frame with columns Taxon, Colour, Phylum, Rank, Superkingdom.
 }
 \description{
-This function returns the full pre-defined colour palette for microbiota barplots. The colour palette is stored in the 'hue' data frame.
+Returns a sample of taxa from the internal lineage database with
+their auto-generated colours, useful for previewing phylum colour schemes.
 }
 \examples{
-# Get the full colour palette
-biomeHue_palette()
+# Preview all phyla
+biomeHue_palette(n = 3)
 
+# Preview specific phyla
+biomeHue_palette(phylum = c("Bacillota", "Bacteroidota"))
 }

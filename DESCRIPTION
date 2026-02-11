@@ -1,12 +1,18 @@
 Package: BiomeHue
 Type: Package
-Title: Sensible colours for microbiome barplots
-Version: 0.1.0
+Title: HCL-Based Colours for Microbiome Barplots
+Version: 1.1.0
 Author: Feargal Ryan
-Maintainer: Feargal ryan  <feargaljryan@gmail.com>
-Description: A dataframe look up with various colours
-    A function will be created to look up colours.
-License: MIT license
+Maintainer: Feargal Ryan <feargaljryan@gmail.com>
+Description: Generates systematic, phylogenetically-informed colours for
+    microbiome barplots using the HCL colour space. Colours are automatically
+    assigned based on taxonomic lineage, with variation to distinguish related
+    taxa. Includes an internal NCBI-derived lineage database and optional NCBI
+    API fallback for unknown taxa. Supports bacteria, archaea, and fungi.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 3.5.0)
+Imports: grDevices, utils
+Suggests: testthat (>= 3.0.0), ggplot2
 RoxygenNote: 7.2.3

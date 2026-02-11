@@ -2,24 +2,47 @@
 % Please edit documentation in R/biomeHue.R
 \name{biomeHue}
 \alias{biomeHue}
-\title{Get a vector of colours for a microbiota barplot}
+\title{Generate HCL-based colours for microbiome taxa}
 \usage{
-biomeHue(taxa)
+biomeHue(taxa, use_ncbi = TRUE, return_lineage = FALSE)
 }
 \arguments{
-\item{taxa}{A character vector of bacterial names for which colours are desired.}
+\item{taxa}{Character vector of taxon names (genus, species, family, etc.).
+Supports underscores (Bacteroides_fragilis), spaces, and QIIME-style
+prefixes (g__Bacteroides).}
+
+\item{use_ncbi}{Logical. If TRUE (default), query the NCBI API for taxa
+not found in the internal database. Set to FALSE for offline use.}
+
+\item{return_lineage}{Logical. If TRUE, return a data frame with colours
+and lineage info. If FALSE (default), return a named character vector.}
 }
 \value{
-A character vector of colours in hexadecimal format.
+If \code{return_lineage = FALSE}: a named character vector of
+hex colour codes. If \code{return_lineage = TRUE}: a data frame with
+columns Taxon, Colour, Phylum, Rank, Superkingdom.
 }
 \description{
-This function returns a vector of colours in hexadecimal format for a microbiota barplot. The colours are based on a pre-defined colour palette stored in the 'hue' data frame.
+Generates colours for microbiome taxa based on their taxonomic lineage
+using the HCL colour space. Colours are assigned systematically by phylum,
+with variation in hue, luminance and chroma to distinguish related taxa.
+}
+\details{
+Lineage is resolved by: (1) checking an internal NCBI-derived database,
+(2) extracting genus from species binomials and retrying, (3) optionally
+querying the NCBI Entrez API for unknown taxa.
 }
 \examples{
-# Get the colours for the bacteria 'Bacteroides' and 'Faecalibacterium'
-biomeHue(c('Bacteroides', 'Faecalibacterium'))
+# Basic usage
+biomeHue(c("Bacteroides", "Faecalibacterium", "Bifidobacterium"),
+         use_ncbi = FALSE)
 
-# Get the full colour palette
-biomeHue_palette()
+# With lineage information
+biomeHue(c("Akkermansia", "Prevotella"), use_ncbi = FALSE,
+         return_lineage = TRUE)
 
+\donttest{
+# With NCBI lookup for unknown taxa
+biomeHue(c("Bacteroides", "SomeRareTaxon"))
+}
 }
